@@ -1,0 +1,56 @@
+
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report
+
+
+data = {
+    'description': [
+        'A high school girl gets tangled in a love triangle with the school’s top student and a mysterious bad boy.',
+        'In a world of magic, a young wizard must fight to save his kingdom from dark forces.',
+        'A detective solves crimes in a futuristic city where technology and mystery collide.',
+        'Two childhood friends reunite and face challenges as they navigate their feelings for each other.',
+        'A superhero battles evil forces to protect his city from an impending alien invasion.',
+        'A girl discovers she has supernatural powers and joins a secret organization to fight demons.',
+        'An office worker falls in love with her boss, but things get complicated when his ex returns.',
+        'A warrior seeks revenge in a fantasy realm filled with dragons and sorcery.',
+        'A chef competes in a cooking competition and finds romance with a rival chef.',
+        'A girl transfers to a new school and becomes the target of bullies until she finds her confidence.'
+    ],
+    'category': [
+        'romance', 'fantasy', 'action', 'romance', 'action',
+        'fantasy', 'romance', 'fantasy', 'romance', 'romance'
+    ]
+}
+
+
+df = pd.DataFrame(data)
+
+# Preprocess the data
+X = df['description']
+y = df['category']
+
+vectorizer = TfidfVectorizer()
+X_vectorized = vectorizer.fit_transform(X)
+
+
+X_train, X_test, y_train, y_test = train_test_split(X_vectorized, y, test_size=0.3, random_state=42)
+
+
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+
+y_pred = model.predict(X_test)
+
+
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+
+new_description = ["A high school student finds herself in a magical world where she must defeat an evil queen."]
+new_description_vectorized = vectorizer.transform(new_description)
+prediction = model.predict(new_description_vectorized)
+print("\nPredicted category for new description:", prediction[0])
