@@ -1,0 +1,35 @@
+import nltk
+from nltk.tokenize import word_tokenize
+
+responses = {
+    "castle swimmer": "Castle Swimmer is a webtoon series that follows the adventures of a young prophecy fish named Kappa and a prince named Siren. Together, they navigate destinies, friendships, and the complications of fate.",
+    "about": "Castle Swimmer is about Kappa, the beacon of prophecies, and Siren, a prince who must fulfill his destiny, as they journey through underwater kingdoms and face challenges that question their fates.",
+    "main characters": "The main characters of Castle Swimmer include Kappa, the prophecy fish who has the ability to fulfill destinies, and Siren, a prince of an underwater kingdom bound by a prophecy.",
+    "new prophecy": "In chapters 83-89 of Castle Swimmer, a new prophecy is revealed that changes the course of events for Kappa and Siren. It introduces twists that challenge their understanding of their destinies.",
+    "kappa": "Kappa is the beacon of prophecies and a central character in Castle Swimmer. He struggles with the burden of fulfilling others' destinies and searches for his own purpose.",
+    "siren": "Siren is the prince of an underwater kingdom who is destined to kill the beacon, Kappa, to save his people. He faces the dilemma of choosing between duty and his feelings for Kappa."
+}
+
+
+def find_response(user_input):
+    # Tokenize the user input to find keywords
+    tokens = word_tokenize(user_input.lower())
+    
+
+    for token in tokens:
+        if token in responses:
+            return responses[token]
+    
+    return "I'm sorry, I don't have information on that. Can you ask something else about Castle Swimmer?"
+
+def chatbot():
+    print("Welcome to the Castle Swimmer chatbot! Ask me anything about Castle Swimmer.")
+    while True:
+        user_input = input("\nYou: ")
+        if user_input.lower() in ["exit", "quit"]:
+            print("Goodbye!")
+            break
+        response = find_response(user_input)
+        print(f"Bot: {response}")
+
+chatbot()
